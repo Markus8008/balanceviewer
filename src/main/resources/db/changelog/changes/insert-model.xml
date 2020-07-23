@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="Mark" id="2">
+        <insert tableName="clients">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="Mark"/>
+            <column name="surname" value="Kuras"/>
+            <column name="country" value="USA"/>
+        </insert>
+        <insert tableName="accounts">
+            <column name="id" valueNumeric="1"/>
+            <column name="id_client" value="1"/>
+            <column name="nrb" value="PL123123123123123123123123"/>
+        </insert>
+        <insert tableName="balances">
+            <column name="id" valueNumeric="1"/>
+            <column name="id_account" value="1"/>
+            <column name="total" value="123.12"/>
+            <column name="currency" value="PLN"/>
+            <column name="date" value="2020-12-12"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
