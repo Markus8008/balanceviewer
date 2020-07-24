@@ -1,5 +1,7 @@
 package com.balance.balanceviewer.dto.output;
 
+import com.balance.balanceviewer.dto.LocalBigDecimalSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,9 +12,15 @@ import java.math.BigDecimal;
 @Getter @Setter
 public class BalanceSummary {
 
+    @JsonSerialize(using = LocalBigDecimalSerializer.class)
     private BigDecimal currentBalance;
-    private BigDecimal summaryAccountTurnover;
-    private BigDecimal summaryIncomes;
-    private BigDecimal summaryOutcomes;
 
+    @JsonSerialize(using = LocalBigDecimalSerializer.class)
+    private BigDecimal summaryAccountTurnover;
+
+    @JsonSerialize(using = LocalBigDecimalSerializer.class)
+    private BigDecimal summaryIncomes;
+
+    @JsonSerialize(using = LocalBigDecimalSerializer.class)
+    private BigDecimal summaryOutcomes;
 }
