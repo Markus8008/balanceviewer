@@ -1,12 +1,11 @@
 package com.balance.balanceviewer.controller;
 
 import com.balance.balanceviewer.dto.ClientWeb;
+import com.balance.balanceviewer.dto.input.ClientsData;
 import com.balance.balanceviewer.persistance.model.Client;
 import com.balance.balanceviewer.persistance.repository.BalanceRepository;
 import com.balance.balanceviewer.persistance.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,5 +30,11 @@ public class BalanceController {
     {
         client.setCountry("Canada");
         return client;
+    }
+
+    @PostMapping(path= "/clients", consumes = "application/json", produces = "application/json")
+    public ClientsData addEmployee(@RequestBody ClientsData dataClients) throws Exception
+    {
+        return dataClients;
     }
 }
