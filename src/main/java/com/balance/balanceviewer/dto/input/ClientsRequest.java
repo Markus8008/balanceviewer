@@ -1,15 +1,15 @@
 package com.balance.balanceviewer.dto.input;
 
-import com.balance.balanceviewer.dto.input.Client;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class Clients {
-    List<Client> client;
+public class ClientsRequest {
+
+    @JsonProperty("client")
+    List<ClientRequest> clientList;
 }

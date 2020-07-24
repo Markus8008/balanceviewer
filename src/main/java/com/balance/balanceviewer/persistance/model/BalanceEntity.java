@@ -1,23 +1,24 @@
 package com.balance.balanceviewer.persistance.model;
 
-import com.balance.balanceviewer.persistance.CurrencyType;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.balance.balanceviewer.model.CurrencyType;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter @Setter
+@Builder
 @Entity
-@Table(name = Balance.TABLE_NAME)
-public class Balance {
+@Table(name = BalanceEntity.TABLE_NAME)
+public class BalanceEntity {
 
     static final String TABLE_NAME = "BALANCES";
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
@@ -32,5 +33,5 @@ public class Balance {
 
     @JoinColumn(name = "id_account")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Account account;
+    private AccountEntity account;
 }

@@ -1,6 +1,9 @@
 package com.balance.balanceviewer.dto.input;
 
+import com.balance.balanceviewer.dto.CurrencyDeserializer;
 import com.balance.balanceviewer.dto.LocalBigDecimalDeserializer;
+import com.balance.balanceviewer.model.Balance;
+import com.balance.balanceviewer.model.CurrencyType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
@@ -11,16 +14,14 @@ import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
-public class Transaction {
+public class BalanceRequest implements Balance {
 
     @JsonDeserialize(using = LocalBigDecimalDeserializer.class)
-    private BigDecimal value;
+    private BigDecimal total;
 
     @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
 
-    private String currency;
-    private String description;
-    private String type;
-
+    @JsonDeserialize(using = CurrencyDeserializer.class)
+    private CurrencyType currency;
 }

@@ -8,15 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter @Setter
+@Builder
 @Entity
-@Table(name = Client.TABLE_NAME)
-public class Client {
+@Table(name = ClientEntity.TABLE_NAME)
+public class ClientEntity {
 
     static final String TABLE_NAME = "CLIENTS";
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
     private String name;
@@ -31,5 +33,6 @@ public class Client {
             orphanRemoval = true
     )
     @JsonIgnoreProperties("client")
-    private List<Account> accounts = new ArrayList<>();
+    private List<AccountEntity> accounts = new ArrayList<>();
+
 }

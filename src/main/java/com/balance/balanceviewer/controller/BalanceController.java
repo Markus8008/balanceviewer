@@ -1,38 +1,41 @@
 package com.balance.balanceviewer.controller;
 
-import com.balance.balanceviewer.dto.input.ClientsData;
-import com.balance.balanceviewer.dto.output.BalanceSummary;
-import com.balance.balanceviewer.persistance.model.Client;
-import com.balance.balanceviewer.persistance.repository.BalanceRepository;
-import com.balance.balanceviewer.persistance.repository.ClientRepository;
+import com.balance.balanceviewer.dto.input.ClientsDataRequest;
+import com.balance.balanceviewer.dto.output.BalanceSummaryResponse;
+import com.balance.balanceviewer.dto.output.ClientBalanceSummaryResponse;
+import com.balance.balanceviewer.dto.output.factory.ClientBalanceSummaryFactory;
+import com.balance.balanceviewer.logic.balancestrategy.SummarizeBalanceStatelessService;
+import com.balance.balanceviewer.logic.balancestrategy.SummarizeBalanceStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class BalanceController {
 
     @Autowired
-    BalanceRepository balanceRepository;
+    @Qualifier(SummarizeBalanceStatelessService.SERVICE_NAME)
+    private SummarizeBalanceStrategy summarizeBalanceService;
 
     @Autowired
-    ClientRepository clientRepository;
-
-    @GetMapping("/balance/getall")
-    public Client retriveBalances() {
-        return clientRepository.findById(1).get();
-    }
+    private ClientBalanceSummaryFactory clientBalanceSummaryFactory;
 
     @PostMapping(path= "/", consumes = "application/json", produces = "application/json")
-    public BalanceSummary addEmployee(@RequestBody ClientsData dataClients) throws Exception
+    public BalanceSummaryResponse summarizeBalance(@RequestBody ClientsDataRequest dataClients) throws Exception
     {
-        return  BalanceSummary.builder()
-                .currentBalance(new BigDecimal("123.76"))
-                .summaryAccountTurnover(new BigDecimal("432.9"))
+        List<ClientBalanceSummaryResponse> clientBalanceSummaryResponseList =
+                dataClients.getClients().getClientList().stream().map(client ->
+                        clientBalanceSummaryFactory.createClientBalanceSummary(client, summarizeBalanceService, LocalDate.now()))
+                        .collect(Collectors.toList());
+
+        return BalanceSummaryResponse.builder()
+                .balances(clientBalanceSummaryResponseList)
                 .build();
     }
 }

@@ -1,4 +1,4 @@
-package com.balance.balanceviewer.persistance;
+package com.balance.balanceviewer.model;
 
 import lombok.Getter;
 

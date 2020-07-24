@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Builder
 @Getter @Setter
-public class BalanceSummary {
+public class ClientBalanceSummaryResponse {
 
     @JsonSerialize(using = LocalBigDecimalSerializer.class)
     private BigDecimal currentBalance;
@@ -23,4 +23,6 @@ public class BalanceSummary {
 
     @JsonSerialize(using = LocalBigDecimalSerializer.class)
     private BigDecimal summaryOutcomes;
+
+    private ClientInfoResponse clientInfo;
 }

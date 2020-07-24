@@ -1,23 +1,24 @@
 package com.balance.balanceviewer.persistance.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter @Setter
+@Builder
 @Entity
-@Table(name = Account.TABLE_NAME)
-public class Account {
+@Table(name = AccountEntity.TABLE_NAME)
+public class AccountEntity {
 
     static final String TABLE_NAME = "ACCOUNTS";
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
     private String nrb;
@@ -28,7 +29,7 @@ public class Account {
             orphanRemoval = true
     )
     @JsonIgnoreProperties("account")
-    private List<Balance> balances = new ArrayList<>();
+    private List<BalanceEntity> balances = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "account",
@@ -36,10 +37,10 @@ public class Account {
             orphanRemoval = true
     )
     @JsonIgnoreProperties("account")
-    private List<Transaction> transactions = new ArrayList<>();
+    private List<TransactionEntity> transactions = new ArrayList<>();
 
 
     @JoinColumn(name = "id_client")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Client client;
+    private ClientEntity client;
 }
