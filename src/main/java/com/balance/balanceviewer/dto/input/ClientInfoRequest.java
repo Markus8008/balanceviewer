@@ -1,10 +1,8 @@
 package com.balance.balanceviewer.dto.input;
 
 import com.balance.balanceviewer.model.ClientInfo;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @NoArgsConstructor

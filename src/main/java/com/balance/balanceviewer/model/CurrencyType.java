@@ -14,5 +14,4 @@ public enum CurrencyType {
     CurrencyType(String description) {
         this.description = description;
     }
-
 }

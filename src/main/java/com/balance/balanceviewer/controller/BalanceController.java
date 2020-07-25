@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 public class BalanceController {
 
     @Autowired
-    @Qualifier(SummarizeBalanceStatelessService.SERVICE_NAME)
     private SummarizeBalanceService summarizeBalanceService;
 
     @Autowired

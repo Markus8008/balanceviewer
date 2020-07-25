@@ -8,9 +8,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Service(SummarizeBalanceStatelessService.SERVICE_NAME)
+@Service
 public class SummarizeBalanceStatelessService implements SummarizeBalanceService {
-    public static final String SERVICE_NAME = "summarizeBalanceStatelessService";
 
     @Override
     public BalanceSummary getBalanceSummary(Client client, LocalDate balanceDate) {
