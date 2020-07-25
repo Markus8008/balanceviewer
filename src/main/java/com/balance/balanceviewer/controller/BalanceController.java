@@ -4,8 +4,8 @@ import com.balance.balanceviewer.dto.input.ClientsDataRequest;
 import com.balance.balanceviewer.dto.output.BalanceSummaryResponse;
 import com.balance.balanceviewer.dto.output.ClientBalanceSummaryResponse;
 import com.balance.balanceviewer.dto.output.factory.ClientBalanceSummaryFactory;
-import com.balance.balanceviewer.logic.balancestrategy.SummarizeBalanceStatelessService;
-import com.balance.balanceviewer.logic.balancestrategy.SummarizeBalanceStrategy;
+import com.balance.balanceviewer.logic.SummarizeBalanceStatelessService;
+import com.balance.balanceviewer.logic.SummarizeBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +21,7 @@ public class BalanceController {
 
     @Autowired
     @Qualifier(SummarizeBalanceStatelessService.SERVICE_NAME)
-    private SummarizeBalanceStrategy summarizeBalanceService;
+    private SummarizeBalanceService summarizeBalanceService;
 
     @Autowired
     private ClientBalanceSummaryFactory clientBalanceSummaryFactory;

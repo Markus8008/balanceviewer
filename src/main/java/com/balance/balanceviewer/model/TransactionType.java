@@ -9,7 +9,7 @@ public enum TransactionType {
 
     private String description;
 
-    private TransactionType(String description) {
+    TransactionType(String description) {
         this.description = description;
     }
 }

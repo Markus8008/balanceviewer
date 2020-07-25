@@ -11,7 +11,7 @@ public enum CurrencyType {
 
     private String description;
 
-    private CurrencyType(String description) {
+    CurrencyType(String description) {
         this.description = description;
     }
 

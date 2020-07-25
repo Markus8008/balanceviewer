@@ -1,4 +1,4 @@
-package com.balance.balanceviewer.logic.balancestrategy;
+package com.balance.balanceviewer.logic;
 
 import com.balance.balanceviewer.model.BalanceSummary;
 import com.balance.balanceviewer.model.Client;
@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Service(SummarizeBalanceStatelessService.SERVICE_NAME)
-public class SummarizeBalanceStatelessService implements SummarizeBalanceStrategy {
+public class SummarizeBalanceStatelessService implements SummarizeBalanceService {
     public static final String SERVICE_NAME = "summarizeBalanceStatelessService";
 
     @Override
