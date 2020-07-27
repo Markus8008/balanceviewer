@@ -33,12 +33,13 @@ public class BalanceControllerTests {
     private String inputJson;
     private List expectResult;
 
+    private MockMvc mockMvc;
+
     @ClassRule
     public static final SpringClassRule SPRING_CLASS_RULE = new SpringClassRule();
     @Rule
     public final SpringMethodRule springMethodRule = new SpringMethodRule();
 
-    private MockMvc mockMvc;
     @Autowired
     private WebApplicationContext webApplicationContext;
     @Autowired
