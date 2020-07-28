@@ -1,21 +1,19 @@
 package com.balance.balanceviewer.dto.output.factory;
 
 import com.balance.balanceviewer.dto.output.ClientBalanceSummaryResponse;
-import com.balance.balanceviewer.logic.SummarizeBalanceService;
+import com.balance.balanceviewer.logic.AbstractClientBalanceSummaryFactory;
 import com.balance.balanceviewer.model.BalanceSummary;
-import com.balance.balanceviewer.model.Client;
+import com.balance.balanceviewer.model.ClientBalanceSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-
 @Component
-public class ClientBalanceSummaryFactory {
+public class ClientBalanceSummaryFactory implements AbstractClientBalanceSummaryFactory {
 
     @Autowired
-    ClientInfoResponseFactory clientInfoResponseFactory;
+    ClientInfoFactory clientInfoResponseFactory;
 
-    public ClientBalanceSummaryResponse createClientBalanceSummary(BalanceSummary balanceSummary) {
+    public ClientBalanceSummary createClientBalanceSummary(BalanceSummary balanceSummary) {
         return ClientBalanceSummaryResponse.builder()
                 .clientInfo(clientInfoResponseFactory.createClientInfoResponse(balanceSummary.getClientInfo()))
                 .currentBalance(balanceSummary.getCurrentBalance())

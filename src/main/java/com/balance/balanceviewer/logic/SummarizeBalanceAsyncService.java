@@ -2,11 +2,13 @@ package com.balance.balanceviewer.logic;
 
 import com.balance.balanceviewer.model.BalanceSummary;
 import com.balance.balanceviewer.model.Client;
+import com.balance.balanceviewer.model.ClientBalanceSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -29,7 +31,7 @@ public class SummarizeBalanceAsyncService {
         return CompletableFuture.supplyAsync(() -> summarizeBalanceServic.getBalanceSummary(client, balanceDate), executorService);
     }
 
-    public CompletableFuture<List<BalanceSummary>> executeAsyncTask(List<Client> clients) {
+    public List<ClientBalanceSummary> executeAsyncTask(List<Client> clients, AbstractClientBalanceSummaryFactory clientBalanceSummaryFactory) {
         List<CompletableFuture<BalanceSummary>> listBalanceSummary = clients.stream()
                 .map(client -> balanceSummaryTask(client, LocalDate.now()))
                 .collect(Collectors.toList());
@@ -40,7 +42,12 @@ public class SummarizeBalanceAsyncService {
                 .map(balanceSummaryFuture -> balanceSummaryFuture.join())
                 .collect(Collectors.toList()));
 
-        return allBalanceSummaryFuture;
+        List<ClientBalanceSummary> clientBalanceSummaryResponseList = new ArrayList<>();
+        allBalanceSummaryFuture.thenApply(balanceSummaries -> balanceSummaries.stream().map(balanceSummary
+                -> clientBalanceSummaryResponseList.add(clientBalanceSummaryFactory.createClientBalanceSummary(balanceSummary))).collect(Collectors.toList()));
+
+
+        return clientBalanceSummaryResponseList;
     }
 
 }

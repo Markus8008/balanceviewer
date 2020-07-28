@@ -5,9 +5,9 @@ import com.balance.balanceviewer.model.ClientInfo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClientInfoResponseFactory {
+public class ClientInfoFactory {
 
-    public ClientInfoResponse createClientInfoResponse(ClientInfo client) {
+    public ClientInfo createClientInfoResponse(ClientInfo client) {
         return ClientInfoResponse.builder()
                 .name(client.getName())
                 .surname(client.getSurname())
