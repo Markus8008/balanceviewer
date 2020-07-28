@@ -21,6 +21,9 @@ public class SummarizeBalanceAsyncService {
     @Qualifier(BeanConfiguration.EXECUTOR_SERVICE)
     private ExecutorService executorService;
 
+    @Autowired
+    private AbstractClientBalanceSummaryFactory clientBalanceSummaryFactory;
+
     private SummarizeBalanceService summarizeBalanceServic;
 
     public SummarizeBalanceAsyncService(SummarizeBalanceService summarizeBalanceService) {
@@ -31,7 +34,7 @@ public class SummarizeBalanceAsyncService {
         return CompletableFuture.supplyAsync(() -> summarizeBalanceServic.getBalanceSummary(client, balanceDate), executorService);
     }
 
-    public List<ClientBalanceSummary> executeAsyncTask(List<Client> clients, AbstractClientBalanceSummaryFactory clientBalanceSummaryFactory) {
+    public List<ClientBalanceSummary> executeAsyncTask(List<Client> clients) {
         List<CompletableFuture<BalanceSummary>> listBalanceSummary = clients.stream()
                 .map(client -> balanceSummaryTask(client, LocalDate.now()))
                 .collect(Collectors.toList());
