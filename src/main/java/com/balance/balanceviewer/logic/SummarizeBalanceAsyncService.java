@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 @Service
 public class SummarizeBalanceAsyncService {
@@ -24,10 +26,23 @@ public class SummarizeBalanceAsyncService {
         this.summarizeBalanceServic = summarizeBalanceService;
     }
 
-    public CompletableFuture<BalanceSummary> balanceSummaryTask(Client client, LocalDate balanceDate) {
+    private CompletableFuture<BalanceSummary> balanceSummaryTask(Client client, LocalDate balanceDate) {
         return CompletableFuture.supplyAsync(() -> summarizeBalanceServic.getBalanceSummary(client, balanceDate), executorService);
     }
 
+    public CompletableFuture<List<BalanceSummary>> executeAsyncTask(List<Client> clients) {
+        List<CompletableFuture<BalanceSummary>> listBalanceSummary = clients.stream()
+                .map(client -> balanceSummaryTask(client, LocalDate.now()))
+                .collect(Collectors.toList());
+
+        CompletableFuture<Void> allFutures = CompletableFuture.allOf(listBalanceSummary.toArray(new CompletableFuture[listBalanceSummary.size()]));
+
+        CompletableFuture<List<BalanceSummary>> allBalanceSummaryFuture = allFutures.thenApply(v -> listBalanceSummary.stream()
+                .map(balanceSummaryFuture -> balanceSummaryFuture.join())
+                .collect(Collectors.toList()));
+
+        return allBalanceSummaryFuture;
+    }
 
 }
 

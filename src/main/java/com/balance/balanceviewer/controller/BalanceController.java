@@ -46,28 +46,14 @@ public class BalanceController {
     @PostMapping(path= "/async", consumes = "application/json", produces = "application/json")
     public BalanceSummaryResponse summarizeBalanceAsync(@RequestBody ClientsDataRequest dataClients) {
 
-        List<ClientBalanceSummaryResponse> clientBalanceSummaryResponseList = createClientBalanceSummaryResponseList(dataClients);
+        CompletableFuture<List<BalanceSummary>> allBalanceSummaryFuture = summarizeBalanceAsyncService.executeAsyncTask(dataClients.getClients().getClientList());
+        List<ClientBalanceSummaryResponse> clientBalanceSummaryResponseList = new ArrayList<>();
+        allBalanceSummaryFuture.thenApply(balanceSummaries -> balanceSummaries.stream().map(balanceSummary
+                -> clientBalanceSummaryResponseList.add(clientBalanceSummaryFactory.createClientBalanceSummary(balanceSummary))).collect(Collectors.toList()));
+
         return BalanceSummaryResponse.builder()
                 .balances(clientBalanceSummaryResponseList)
                 .build();
     }
 
-    private List<ClientBalanceSummaryResponse> createClientBalanceSummaryResponseList(ClientsDataRequest dataClients) {
-
-        List<CompletableFuture<BalanceSummary>> listBalanceSummary = dataClients.getClients().getClientList().stream()
-                .map(client -> summarizeBalanceAsyncService.balanceSummaryTask(client, LocalDate.now()))
-                .collect(Collectors.toList());
-
-        CompletableFuture<Void> allFutures = CompletableFuture.allOf(listBalanceSummary.toArray(new CompletableFuture[listBalanceSummary.size()]));
-
-        CompletableFuture<List<BalanceSummary>> allBalanceSummaryFuture = allFutures.thenApply(v -> listBalanceSummary.stream()
-                .map(balanceSummaryFuture -> balanceSummaryFuture.join())
-                .collect(Collectors.toList()));
-
-        List<ClientBalanceSummaryResponse> clientBalanceSummaryResponseList = new ArrayList<>();
-        allBalanceSummaryFuture.thenApply(balanceSummaries -> balanceSummaries.stream().map(balanceSummary
-                -> clientBalanceSummaryResponseList.add(clientBalanceSummaryFactory.createClientBalanceSummary(balanceSummary))).collect(Collectors.toList()));
-
-        return clientBalanceSummaryResponseList;
-    }
 }
