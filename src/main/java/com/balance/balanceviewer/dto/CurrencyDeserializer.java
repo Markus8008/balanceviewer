@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 public class CurrencyDeserializer extends JsonDeserializer<CurrencyType> {
 

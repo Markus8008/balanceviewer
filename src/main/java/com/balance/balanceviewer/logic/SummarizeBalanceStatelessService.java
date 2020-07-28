@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @Service
 public class SummarizeBalanceStatelessService implements SummarizeBalanceService {
 
-    /*Idea: For time-consuming calculations this can be asynchronous*/
     @Override
     public BalanceSummary getBalanceSummary(Client client, LocalDate balanceDate) {
         return new BalanceSummary() {
