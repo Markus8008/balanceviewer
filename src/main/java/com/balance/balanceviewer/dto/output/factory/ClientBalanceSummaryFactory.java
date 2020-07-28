@@ -15,9 +15,9 @@ public class ClientBalanceSummaryFactory {
     @Autowired
     ClientInfoResponseFactory clientInfoResponseFactory;
 
-    public ClientBalanceSummaryResponse createClientBalanceSummary(Client client, BalanceSummary balanceSummary) {
+    public ClientBalanceSummaryResponse createClientBalanceSummary(BalanceSummary balanceSummary) {
         return ClientBalanceSummaryResponse.builder()
-                .clientInfo(clientInfoResponseFactory.createClientInfoResponse(client.getClientInfo()))
+                .clientInfo(clientInfoResponseFactory.createClientInfoResponse(balanceSummary.getClientInfo()))
                 .currentBalance(balanceSummary.getCurrentBalance())
                 .summaryAccountTurnover(balanceSummary.getSummaryAccountTurnover())
                 .summaryIncomes(balanceSummary.getSummaryIncomes())

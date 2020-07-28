@@ -2,6 +2,7 @@ package com.balance.balanceviewer.logic;
 
 import com.balance.balanceviewer.model.BalanceSummary;
 import com.balance.balanceviewer.model.Client;
+import com.balance.balanceviewer.model.ClientInfo;
 import com.balance.balanceviewer.model.TransactionType;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,11 @@ public class SummarizeBalanceStatelessService implements SummarizeBalanceService
     @Override
     public BalanceSummary getBalanceSummary(Client client, LocalDate balanceDate) {
         return new BalanceSummary() {
+            @Override
+            public ClientInfo getClientInfo() {
+                return client.getClientInfo();
+            }
+
             @Override
             public BigDecimal getCurrentBalance() {
                 return balanceDate.isBefore(client.getBalance().getDate()) ? null : client.getBalance().getTotal();

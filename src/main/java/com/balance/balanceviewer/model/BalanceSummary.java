@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public interface BalanceSummary {
 
+    ClientInfo getClientInfo();
     BigDecimal getCurrentBalance();
     BigDecimal getSummaryAccountTurnover();
     BigDecimal getSummaryIncomes();
