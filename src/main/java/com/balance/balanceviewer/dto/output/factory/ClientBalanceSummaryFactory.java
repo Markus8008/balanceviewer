@@ -15,8 +15,7 @@ public class ClientBalanceSummaryFactory {
     @Autowired
     ClientInfoResponseFactory clientInfoResponseFactory;
 
-    public ClientBalanceSummaryResponse createClientBalanceSummary(Client client, SummarizeBalanceService strategy, LocalDate balanceDate) {
-        BalanceSummary balanceSummary = strategy.getBalanceSummary(client, balanceDate);
+    public ClientBalanceSummaryResponse createClientBalanceSummary(Client client, BalanceSummary balanceSummary) {
         return ClientBalanceSummaryResponse.builder()
                 .clientInfo(clientInfoResponseFactory.createClientInfoResponse(client.getClientInfo()))
                 .currentBalance(balanceSummary.getCurrentBalance())
